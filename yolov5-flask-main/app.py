@@ -10,10 +10,10 @@ from flask import Flask, jsonify, url_for, render_template, request, redirect
 app = Flask(__name__)
 run_with_ngrok(app)
 
-RESULT_FOLDER = os.path.join('/content/drive/MyDrive/yolov5-flask-main/static')
+RESULT_FOLDER = os.path.join('yolov5-flask-main/static')
 app.config['RESULT_FOLDER'] = RESULT_FOLDER
 
-model = torch.hub.load('ultralytics/yolov5', 'custom', path='/content/drive/MyDrive/yolov5_gun_detector2/yolov5/runs/train/yolov5s_results8/weights/best.pt')  # default
+model = torch.hub.load('ultralytics/yolov5', 'custom', path='model/best.pt')  # default
 model.eval()
 
 def get_prediction(img_bytes):
@@ -35,8 +35,8 @@ def predict():
 
         img_bytes = file.read()
         results = get_prediction(img_bytes)
-        results.save('/content/drive/MyDrive/yolov5-flask-main/static')  # save as results1.jpg, results2.jpg... etc.
-        os.rename("/content/drive/MyDrive/yolov5-flask-main/static/image0.jpg", "/content/drive/MyDrive/yolov5-flask-main/static/results0.jpg")
+        results.save('yolov5-flask-main/static')  # save as results1.jpg, results2.jpg... etc.
+        os.rename("yolov5-flask-main/static/image0.jpg", "yolov5-flask-main/static/results0.jpg")
 
         full_filename = os.path.join(app.config['RESULT_FOLDER'], 'results0.jpg')
         return redirect('static/results0.jpg')
